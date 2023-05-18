@@ -42,25 +42,25 @@ function App() {
   const [isError, setIsError] = React.useState(false);
   const navigate = useNavigate();
 
-  function handleRegister(isError) {
-    setIsError(isError);
-    setIsInfoTooltipOpen(true);
-  }
-
   function tokenCheck() {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       console.log(token);
       if (token) {
-        auth.getContentByToken(token).then((res) => {
-          if (res) {
-            console.log(res);
-            const userEmail = res.email;
-            setLoggedIn(true);
-            setUserEmail(userEmail);
-            navigate("/mesto", { replace: true });
-          }
-        });
+        auth
+          .getContentByToken(token)
+          .then((res) => {
+            if (res) {
+              console.log(res);
+              const userEmail = res.email;
+              setLoggedIn(true);
+              setUserEmail(userEmail);
+              navigate("/mesto", { replace: true });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
   }
@@ -182,8 +182,33 @@ function App() {
       });
   }
 
-  function handleLogin() {
-    setLoggedIn(true);
+  function handleRegister(email, password) {
+    auth
+      .register(email, password)
+      .then((res) => {
+        console.log(res);
+        setIsError(false);
+        setIsInfoTooltipOpen(true);
+        navigate("/sign-in", { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsError(true);
+        setIsInfoTooltipOpen(true);
+      });
+  }
+
+  function handleLogin(email, password) {
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        console.log(data);
+        if (data.token) {
+          setLoggedIn(true);
+          navigate("/mesto", { replace: true });
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   function handleLogout() {
@@ -233,7 +258,7 @@ function App() {
             />
             <Route
               path="/sign-up"
-              element={<Register onSubmit={handleRegister} />}
+              element={<Register handleRegister={handleRegister} />}
             />
             <Route
               path="/sign-in"
