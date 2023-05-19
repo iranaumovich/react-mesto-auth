@@ -41,7 +41,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         minLength="2"
         maxLength="30"
         placeholder="Название"
-        value={values.place}
+        value={values.place || ""}
         onChange={handleChange}
         required
       />
@@ -58,7 +58,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
         id="picture-link"
         name="link"
         placeholder="Ссылка на картинку"
-        value={values.link}
+        value={values.link || ""}
         onChange={handleChange}
         required
       />

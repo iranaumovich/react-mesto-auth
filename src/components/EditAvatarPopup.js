@@ -36,7 +36,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
         id="avatarlink"
         name="avatarlink"
         placeholder="Ссылка на аватар"
-        value={values.avatarlink}
+        value={values.avatarlink || ""}
         onChange={handleChange}
         required
       />
