@@ -26,7 +26,7 @@ function AuthForm({
           id="email"
           name="email"
           placeholder="Email"
-          value={emailValue}
+          value={emailValue || ""}
           onChange={handleChange}
           required
         />
@@ -43,7 +43,7 @@ function AuthForm({
           id="password"
           name="password"
           placeholder="Пароль"
-          value={passwordValue}
+          value={passwordValue || ""}
           onChange={handleChange}
           required
         />
